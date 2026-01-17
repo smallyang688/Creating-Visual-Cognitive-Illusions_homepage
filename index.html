@@ -462,17 +462,21 @@
             console.log('Auto demo: Starting overlap animation');
 
             // Phase 1: Move each image to overlap position relative to their containers
+            // Get the actual container width including margins, padding, borders
+            var containerWidth = images.first().parent().outerWidth(true);
+            console.log('Auto demo: Container width (including margins):', containerWidth);
+
             images.each(function(index) {
-                // Calculate relative movement to overlap all images at center
+                // Calculate relative movement to overlap all images at center between 2nd and 3rd container
                 // index 0: move right 1.5 container widths
                 // index 1: move right 0.5 container widths
                 // index 2: move left 0.5 container widths
                 // index 3: move left 1.5 container widths
-                // This makes all images overlap between 2nd and 3rd position
-                var targetLeft = (1.5 - index) * 256 + 10; // 256px container width, 10px fine-tune
+                var multiplier = 1.5 - index;
+                var targetLeft = multiplier * containerWidth;
                 var targetTop = 0; // Keep vertical position aligned
 
-                console.log('Auto demo: Image', index, 'moving to relative position:', targetLeft, targetTop);
+                console.log('Auto demo: Image', index, 'multiplier:', multiplier, 'moving to relative position:', targetLeft, targetTop);
 
                 $(this).animate({
                     left: targetLeft,
