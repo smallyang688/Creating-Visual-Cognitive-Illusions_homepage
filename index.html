@@ -218,19 +218,89 @@
         z-index: 5;
     }
 
-    .rot_hidden_disk {
-        border-radius: 50%; /* 确保是圆形旋转 */
-        user-drag: none;
-        -webkit-user-drag: none;
-        object-fit: contain;
+    /* 外部包裹容器，负责在页面中定位 */
+    .rot-hidden-outer-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
+    /* 核心容器：定义圆盘大小和定位基准 */
     .rot-hidden-container {
-        /* 增加一个轻微的阴影或边框让圆盘感更强 */
-        border: 2px solid #eee;
-        border-radius: 50%;
-        padding: 5px;
-        background: #f9f9f9;
+        position: relative;
+        width: 300px;  /* 强制宽度 */
+        height: 300px; /* 强制高度 */
+        min-width: 300px;
+        min-height: 300px;
+        /* 移除 aspect-ratio，直接用固定的 px 保证最稳妥的 1:1 */
+        overflow: visible; /* 改为 visible，确保如果不小心有偏移也能看到整体 */
+        /* 可选：如果你想看到容器中心点，可以暂时留着边框 */
+        border: 1px dashed #ccc;
+        background: transparent; /* 移除黑色背景，避免遮挡 */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* 添加此行：提高整个容器（包含底图和顶图）的亮度 */
+        filter: brightness(160%);
+    }
+
+    /* 底图和旋转层样式：填满容器 */
+    .rot-base-img, .rot_hidden_disk {
+        width: 300px;  /* 使用固定数值而非 100% */
+        height: 300px; /* 使用固定数值 */
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 0;
+        /* 核心修改：使用 fill。如果你确定图片原图是正方形，fill 会最准确地对齐中心 */
+        object-fit: fill;
+        display: block;
+        margin: 0;
+        padding: 0;
+        /* 移除可能存在的限制 */
+        max-width: none !important;
+        max-height: none !important;
+    }
+
+    /* 底图特有样式 */
+    .rot-base-img {
+        pointer-events: none; /* 防止底图被误拖拽 */
+
+        /* 增加底图自身的曝光度和对比度，使其在混合模式下更容易显现 */
+        filter: brightness(140%) contrast(120%);
+    }
+
+    /* 旋转层特有样式 */
+    .rot_hidden_disk {
+        mix-blend-mode: multiply; /* 混合模式 */
+        cursor: grab;
+        z-index: 10;
+        /* 增加亮度和对比度 */
+        filter: brightness(110%) contrast(120%);
+    }
+
+    /* 专门针对旋转隐藏盘的覆盖规则 */
+    .rot_hidden_disk {
+        max-width: none;
+        max-height: none;
+        width: 300px;
+        height: 300px;
+        margin: 0;
+    }
+
+    /* 拖拽时的手型 */
+    .rot_hidden_disk:active {
+        cursor: grabbing;
+    }
+    /* 高亮文字样式 */
+    .highlight {
+        color: #ffd700; /* 金黄色 */
+        font-weight: bold;
+        background-color: #666; /* 灰色背景 */
+        padding: 2px 6px; /* 内边距 */
+        border-radius: 4px; /* 圆角 */
     }
   </style>
 
@@ -707,7 +777,7 @@
 
         <!-- Flip Illusion Demo -->
         <h3 class="title is-4">Flip Illusion</h3>
-        <p>Click and drag to rotate, double-click to reset</p>
+        <p><strong class="highlight">Click and drag to rotate, double-click to reset!</strong></p>
         <div style="text-align: center; margin: 20px 0;">
           <button class="reset-all-flip-images-button button is-primary">Reset All Rotations</button>
         </div>
@@ -716,22 +786,31 @@
             <div class="image-container" style="text-align: center;">
               <img src="./static/images/flip1.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
             </div>
+            <div class="caption" style="text-align: center; margin-top: 10px;">
+              giraffe/penguin
+            </div>
           </div>
           <div class="column is-one-third">
             <div class="image-container" style="text-align: center;">
               <img src="./static/images/flip2.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
+            </div>
+            <div class="caption" style="text-align: center; margin-top: 10px;">
+              ship/ship
             </div>
           </div>
           <div class="column is-one-third">
             <div class="image-container" style="text-align: center;">
               <img src="./static/images/flip3.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
             </div>
+            <div class="caption" style="text-align: center; margin-top: 10px;">
+              dress/dress
+            </div>
           </div>
         </div>
 
         <!-- Rotation Overlay Demo -->
         <h3 class="title is-4" style="margin-top: 2rem;">Rotation Overlay Illusion</h3>
-        <p>Click and drag to rotate the top image. Watch how the combined image changes!</p>
+        <p><strong class="highlight">Click and drag to rotate the top image. Watch how the combined image changes!</strong></p>
         <div style="text-align: center; margin: 20px 0;">
           <button class="reset-all-rotaters-button button is-primary" style="margin-right: 10px;">Reset All Positions</button>
           <button class="rotation-overlay-pause-button button is-warning">Pause Animation</button>
@@ -759,7 +838,7 @@
 
         <!-- Hidden Overlay Demo -->
         <h3 class="title is-4" style="margin-top: 2rem;">Hidden Overlay Illusion</h3>
-        <p style="text-align: center; margin-bottom: 1rem; color: #666;">Drag multiple transparent images together to reveal a hidden pattern underneath</p>
+        <p style="text-align: center; margin-bottom: 1rem; color: #666;"><strong class="highlight">Drag multiple transparent images together to reveal a hidden pattern underneath!</strong></p>
 
         <!-- Reset button moved here -->
         <div style="text-align: center; margin-bottom: 2rem;">
@@ -839,31 +918,42 @@
 
 <!-- Rotational Hidden Overlay Demo -->
 <section class="section">
-  <div class="container is-max-desktop">
+  <div class="container is-max-desktop has-text-centered">
     <h3 class="title is-4" style="margin-top: 2rem;">Rotational Hidden Overlay</h3>
-    <p>Drag to rotate the top disk. Align it to the correct angle to reveal the secret!</p>
-    <div style="text-align: center; margin: 20px 0;">
+    <p><strong class="highlight">Drag to rotate the top disk. Align it to the correct angle to reveal the secret!</strong></p>
+
+    <div style="margin: 20px 0;">
       <button class="reset-all-rot-hidden button is-primary">Reset All Disks</button>
     </div>
 
-    <div class="columns is-centered" style="gap: 40px;">
-      <div class="column is-one-half">
-        <div class="rot-hidden-container" style="position: relative; display: inline-block; width: 300px; height: 300px;">
-          <img src="./static/images/rot_hidden_base_1.png" style="width: 100%; height: 100%; position: absolute; top:0; left:0;">
-          <img src="./static/images/rot_hidden_overlay_1.png"
-               class="rot_hidden_disk flip_image glow-hover-element"
-               style="width: 100%; height: 100%; position: absolute; top:0; left:0; mix-blend-mode: multiply; cursor: grab;">
+    <div class="columns is-centered is-mobile" style="gap: 40px;">
+
+      <div class="column is-narrow" style="padding: 10px;">
+        <div class="rot-hidden-outer-container" style="width: 320px; flex-direction: column; align-items: center;">
+          <div class="rot-hidden-container">
+            <img src="./static/images/rot_hidden_base_1.png" class="rot-base-img">
+            <img src="./static/images/rot_hidden_overlay_1.png"
+                 class="rot_hidden_disk flip_image glow-hover-element">
+          </div>
+          <div class="caption" style="text-align: center; margin-top: 15px; width: 100%;">
+            You can find three angles that reveal 'PKU', 'EECS', and 'SMS' respectively.
+          </div>
         </div>
       </div>
 
-      <div class="column is-one-half">
-        <div class="rot-hidden-container" style="position: relative; display: inline-block; width: 300px; height: 300px;">
-          <img src="./static/images/rot_hidden_base_2.png" style="width: 100%; height: 100%; position: absolute; top:0; left:0;">
-          <img src="./static/images/rot_hidden_overlay_2.png"
-               class="rot_hidden_disk flip_image glow-hover-element"
-               style="width: 100%; height: 100%; position: absolute; top:0; left:0; mix-blend-mode: multiply; cursor: grab;">
+      <div class="column is-narrow" style="padding: 10px;">
+        <div class="rot-hidden-outer-container" style="width: 320px; flex-direction: column; align-items: center;">
+          <div class="rot-hidden-container">
+            <img src="./static/images/rot_hidden_base_2.png" class="rot-base-img">
+            <img src="./static/images/rot_hidden_overlay_2.png"
+                 class="rot_hidden_disk flip_image glow-hover-element">
+          </div>
+          <div class="caption" style="text-align: center; margin-top: 15px; width: 100%;">
+            You can find one angle that reveals a heart and the letters 'LOVE'.
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
