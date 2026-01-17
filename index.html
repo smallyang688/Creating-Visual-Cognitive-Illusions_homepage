@@ -6,7 +6,7 @@
         content="2025 Fall PKU Computer Vision Final Project.">
   <meta name="keywords" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Diffusion Illusion</title>
+  <title>Creating Visual Cognitive Illusions</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -108,12 +108,15 @@
         display: inline-block;
         position: relative;
         filter: brightness(200%);
-        margin: 10px;
+        margin: 25px;
     }
 
     .rot_image_size {
-        width: 256px;
-        height: 256px;
+        max-width: 256px;
+        max-height: 256px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
     }
 
     .quad-rotating-image {
@@ -236,6 +239,7 @@
         function makeImagesDraggable() {
             $('.draggable-image').draggable({
                 snap: '.hidden-character-image, .lightbox',
+                snapTolerance: 20,
                 start: function () {
                     // Stop auto demo when dragging starts
                     if ($(this).hasClass('auto-demo-image')) {
@@ -247,7 +251,45 @@
                     var transformMatrix = $(this).css('transform');
                     ui.helper.css('transform', transformMatrix);
                 },
-                stop: function () {
+                stop: function (event, ui) {
+                    var $this = $(this);
+                    var $lightbox = $this.closest('.lightbox');
+                    var targetArea = $lightbox.find('.target-area');
+
+                    if (targetArea.length > 0) {
+                        var imageOffset = $this.offset();
+                        var targetOffset = targetArea.offset();
+                        var targetHeight = targetArea.outerHeight();
+                        var imageHeight = $this.outerHeight();
+
+                        // 1. 判断水平位置是否在虚线框范围内
+                        var imageCenterX = imageOffset.left + $this.width() / 2;
+                        var targetLeft = targetOffset.left;
+                        var targetRight = targetOffset.left + targetArea.width();
+
+                        if (imageCenterX >= targetLeft && imageCenterX <= targetRight) {
+                            // 2. 计算吸附逻辑
+                            var distanceToTop = Math.abs(imageOffset.top - targetOffset.top);
+                            var distanceToBottom = Math.abs((imageOffset.top + imageHeight) - (targetOffset.top + targetHeight));
+
+                            // 这里的 30 是吸附灵敏度（像素）
+                            var snapTolerance = 30;
+
+                            if (distanceToTop < snapTolerance || distanceToBottom < snapTolerance) {
+                                // 计算图片在父容器坐标系下，为了让边缘对齐虚线框，需要设置的 top 值
+                                // 公式：目标绝对top - 父容器绝对top
+                                var parentOffsetTop = $this.parent().offset().top;
+                                var snappedTop = targetOffset.top - parentOffsetTop;
+
+                                $this.animate({
+                                    top: snappedTop
+                                }, 200);
+
+                                console.log('Snapped to target boundary!');
+                            }
+                        }
+                    }
+
                     $('.reset-all-rotaters-button, .reset-all-hidden-characters-button').removeClass('inactive_button');
                 }
             }).dblclick(function () {
@@ -428,7 +470,7 @@
                 var lightboxPadding = parseInt(lightbox.css('padding-left')) || 20;
 
                 // Keep the large target area that spans all images
-                var targetAreas = $('#target-area, #target-area-geo');
+                var targetAreas = $('#target-area, #target-area-geo, #target-area-auto');
                 var lightboxWidth = $('.lightbox').width();
                 var targetAreaWidth = 1120; // Updated for 1200px lightbox (1200-80=1120)
                 var centerLeft = (lightboxWidth - targetAreaWidth) / 2;
@@ -571,7 +613,8 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Diffusion Illusion</h1>
+          <h1 class="title is-1 publication-title">Creating Visual Cognitive Illusions</h1>
+          <h2 class="subtitle is-3 has-text-centered">2025 Fall PKU Computer Vision Final Project</h2>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://smallyang688.github.io/">Zihan Yang</a><sup>1</sup>,</span>
@@ -589,28 +632,9 @@
 
           <div class="column has-text-centered">
             <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2312.03817"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2312.03817"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/RyannDaGreat/Diffusion-Illusions"
+                <a href="https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -627,50 +651,9 @@
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <h2 class="subtitle has-text-centered">
-        2025 Fall PKU Computer Vision Final Project
-      </h2>
-    </div>
-  </div>
-</section>
 
 
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <!-- First row: 5 images -->
-      <div class="columns is-centered">
-        <div class="column is-one-fifth">
-          <img src="./static/images/flippy_illusions.jpg" alt="Flippy Illusions" style="width: 100%;">
-        </div>
-        <div class="column is-one-fifth">
-          <img src="./static/images/parker_puzzle.jpg" alt="Parker Puzzle" style="width: 100%;">
-        </div>
-        <div class="column is-one-fifth">
-          <img src="./static/images/rotation_overlays.jpg" alt="Rotation Overlays" style="width: 100%;">
-        </div>
-        <div class="column is-one-fifth">
-          <img src="./static/images/20260103diy.png" alt="20260103diy" style="width: 100%;">
-        </div>
-        <div class="column is-one-fifth">
-          <img src="./static/images/twisting squares.png" alt="Twisting Squares" style="width: 100%;">
-        </div>
-      </div>
-      <!-- Second row: 1 image -->
-      <div class="columns is-centered" style="margin-top: 2rem;">
-        <div class="column is-one-third">
-          <img src="./static/images/hidden_characters.jpg" alt="Hidden Characters" style="width: 100%;">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="section">
+<section class="section" style="padding-top: 0.25rem;">
   <div class="container is-max-desktop">
     <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
@@ -697,10 +680,19 @@
           <button class="reset-all-flip-images-button button is-primary">Reset All Rotations</button>
         </div>
         <div class="columns is-centered">
-          <div class="column is-half">
+          <div class="column is-one-third">
             <div class="image-container" style="text-align: center;">
-              <div class="caption">Example Flip Image</div>
-              <img src="./static/images/flip_example.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
+              <img src="./static/images/flip1.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="image-container" style="text-align: center;">
+              <img src="./static/images/flip2.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="image-container" style="text-align: center;">
+              <img src="./static/images/flip3.jpg" class="flip_image flip_image_animated glow-hover-element" style="max-width: 200px; max-height: 200px;">
             </div>
           </div>
         </div>
@@ -712,19 +704,41 @@
           <button class="reset-all-rotaters-button button is-primary" style="margin-right: 10px;">Reset All Positions</button>
           <button class="rotation-overlay-pause-button button is-warning">Pause Animation</button>
         </div>
-        <div style="text-align: center; margin: 20px 0;">
-          <div class="rot-image-container">
-            <img src="./static/images/rotation_base.png" class="rot_image_size">
-            <img src="./static/images/rotation_overlay.png" class="rot_image_size quad-rotating-image draggable-image glow-hover-element">
+        <div class="columns is-centered" style="gap: 40px;">
+          <div class="column is-one-third">
+            <div class="rot-image-container" style="filter: brightness(200%);">
+              <img src="./static/images/rot_base_1.png" class="rot_image_size">
+              <img src="./static/images/rot_overlay_1.png" class="rot_image_size quad-rotating-image draggable-image glow-hover-element">
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="rot-image-container" style="filter: brightness(150%);">
+              <img src="./static/images/rot_base_2.png" class="rot_image_size">
+              <img src="./static/images/rot_overlay_2.png" class="rot_image_size quad-rotating-image draggable-image glow-hover-element">
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="rot-image-container" style="filter: brightness(180%);">
+              <img src="./static/images/rot_base_3.png" class="rot_image_size">
+              <img src="./static/images/rot_overlay_3.png" class="rot_image_size quad-rotating-image draggable-image glow-hover-element">
+            </div>
           </div>
         </div>
 
         <!-- Hidden Overlay Demo -->
         <h3 class="title is-4" style="margin-top: 2rem;">Hidden Overlay Illusion</h3>
+        <p style="text-align: center; margin-bottom: 1rem; color: #666;">Drag multiple transparent images together to reveal a hidden pattern underneath</p>
+
+        <!-- Reset button moved here -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <button class="reset-all-hidden-characters button is-primary">Reset All Positions</button>
+        </div>
 
         <div class="demo-groups">
         <!-- Group 1: Automatic overlap demo -->
         <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1200px; position: relative;">
+          <!-- Target area rectangle - shows where images should overlap -->
+          <div class="target-area" id="target-area-auto" style="width: 1120px; height: 260px; left: 40px; top: 20px;"></div>
           <div class="row">
             <div class="hidden-character-image-container">
               <img src="./static/images/overlap1.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element auto-demo-image">
@@ -784,10 +798,6 @@
           </div>
         </div>
 
-        <!-- Shared reset button for all groups -->
-        <div style="text-align: center; margin: 20px 0;">
-          <button class="reset-all-hidden-characters button is-primary">Reset All Positions</button>
-        </div>
         </div>
       </div>
     </div>
@@ -800,7 +810,7 @@
     <h2 class="title">BibTeX</h2>
     <pre><code>@article{diffusion illusion
   author    = {Zihan Yang, Yuming Fang, Yueran Wang},
-  title     = {Diffusion Illusion},
+  title     = {Creating Visual Cognitive Illusions},
   journal   = {PKU Computer Vision Final Project},
   year      = {2025},
 }</code></pre>
