@@ -212,8 +212,8 @@
     /* Target area rectangle */
     .target-area {
         position: absolute;
-        border: 2px dashed rgba(0, 123, 255, 0.5);
-        background-color: rgba(0, 123, 255, 0.05);
+        border: 2px dashed rgba(128, 128, 128, 0.5);
+        background-color: rgba(128, 128, 128, 0.05);
         pointer-events: none;
         z-index: 5;
     }
@@ -228,10 +228,10 @@
     /* 核心容器：定义圆盘大小和定位基准 */
     .rot-hidden-container {
         position: relative;
-        width: 300px;  /* 强制宽度 */
-        height: 300px; /* 强制高度 */
-        min-width: 300px;
-        min-height: 300px;
+        width: 280px;  /* 稍微缩小一点以适应三列布局 */
+        height: 280px; /* 稍微缩小一点以适应三列布局 */
+        min-width: 280px;
+        min-height: 280px;
         /* 移除 aspect-ratio，直接用固定的 px 保证最稳妥的 1:1 */
         overflow: visible; /* 改为 visible，确保如果不小心有偏移也能看到整体 */
         /* 可选：如果你想看到容器中心点，可以暂时留着边框 */
@@ -248,8 +248,8 @@
 
     /* 底图和旋转层样式：填满容器 */
     .rot-base-img, .rot_hidden_disk {
-        width: 300px;  /* 使用固定数值而非 100% */
-        height: 300px; /* 使用固定数值 */
+        width: 280px;  /* 使用固定数值而非 100% */
+        height: 280px; /* 使用固定数值 */
         position: absolute;
         top: 0;
         left: 0;
@@ -269,7 +269,7 @@
         pointer-events: none; /* 防止底图被误拖拽 */
 
         /* 增加底图自身的曝光度和对比度，使其在混合模式下更容易显现 */
-        filter: brightness(140%) contrast(120%);
+        filter: brightness(160%) contrast(120%);
     }
 
     /* 旋转层特有样式 */
@@ -278,15 +278,15 @@
         cursor: grab;
         z-index: 10;
         /* 增加亮度和对比度 */
-        filter: brightness(110%) contrast(120%);
+        filter: brightness(130%) contrast(120%);
     }
 
     /* 专门针对旋转隐藏盘的覆盖规则 */
     .rot_hidden_disk {
         max-width: none;
         max-height: none;
-        width: 300px;
-        height: 300px;
+        width: 280px;
+        height: 280px;
         margin: 0;
     }
 
@@ -926,14 +926,13 @@
       <button class="reset-all-rot-hidden button is-primary">Reset All Disks</button>
     </div>
 
-    <div class="columns is-centered is-mobile" style="gap: 40px;">
+    <div class="columns is-centered is-mobile" style="gap: 20px;">
 
       <div class="column is-narrow" style="padding: 10px;">
-        <div class="rot-hidden-outer-container" style="width: 320px; flex-direction: column; align-items: center;">
+        <div class="rot-hidden-outer-container" style="width: 300px; flex-direction: column; align-items: center; display: flex;">
           <div class="rot-hidden-container">
             <img src="./static/images/rot_hidden_base_1.png" class="rot-base-img">
-            <img src="./static/images/rot_hidden_overlay_1.png"
-                 class="rot_hidden_disk flip_image glow-hover-element">
+            <img src="./static/images/rot_hidden_overlay_1.png" class="rot_hidden_disk flip_image glow-hover-element">
           </div>
           <div class="caption" style="text-align: center; margin-top: 15px; width: 100%;">
             You can find three angles that reveal 'PKU', 'EECS', and 'SMS' respectively.
@@ -942,14 +941,25 @@
       </div>
 
       <div class="column is-narrow" style="padding: 10px;">
-        <div class="rot-hidden-outer-container" style="width: 320px; flex-direction: column; align-items: center;">
+        <div class="rot-hidden-outer-container" style="width: 300px; flex-direction: column; align-items: center; display: flex;">
           <div class="rot-hidden-container">
             <img src="./static/images/rot_hidden_base_2.png" class="rot-base-img">
-            <img src="./static/images/rot_hidden_overlay_2.png"
-                 class="rot_hidden_disk flip_image glow-hover-element">
+            <img src="./static/images/rot_hidden_overlay_2.png" class="rot_hidden_disk flip_image glow-hover-element">
           </div>
           <div class="caption" style="text-align: center; margin-top: 15px; width: 100%;">
             You can find one angle that reveals a heart and the letters 'LOVE'.
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-narrow" style="padding: 10px;">
+        <div class="rot-hidden-outer-container" style="width: 300px; flex-direction: column; align-items: center; display: flex;">
+          <div class="rot-hidden-container">
+            <img src="./static/images/rot_hidden_base_3.png" class="rot-base-img">
+            <img src="./static/images/rot_hidden_overlay_3.png" class="rot_hidden_disk flip_image glow-hover-element">
+          </div>
+          <div class="caption" style="text-align: center; margin-top: 15px; width: 100%;">
+            You can find one angle that reveals a cup.
           </div>
         </div>
       </div>
