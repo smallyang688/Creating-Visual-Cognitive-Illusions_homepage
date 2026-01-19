@@ -1627,6 +1627,60 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <h2 class="title is-3 has-text-centered">Limitations: Typography & Algorithmic Alternatives</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        Despite the visual fidelity of Stable Diffusion, its capability to generate precise, legible typography remains a significant bottleneck.
+        For geometric illusions requiring exact character alignment and strict perspective consistency—such as the perspective-based text concealment shown below—generative approaches often yield illegible glyphs or fail to adhere to the rigid geometric constraints required for the illusion to work.
+      </p>
+      <p>
+        Consequently, for this specific category, we found that traditional <strong>algorithmic generation</strong> (deterministic rendering via projection code) significantly outperforms latent diffusion models.
+        As demonstrated below, our code-based implementation successfully creates a structure that appears as chaotic noise from a neutral viewpoint but clearly resolves into distinct sentences
+        (<strong>"I HATE PKU ICS"</strong> and <strong>"I LOVE PKU CV"</strong>) when viewed from specific angles.
+        This level of structural precision is currently difficult to achieve using standard Stable Diffusion pipelines due to the lack of explicit character-aware mechanisms in the latent space.
+      </p>
+    </div>
+
+    <div class="columns is-centered is-multiline" style="margin-top: 30px;">
+
+      <div class="column is-10 has-text-centered">
+        <h4 class="title is-5">1. Reference Inspiration</h4>
+        <div class="box" style="padding: 10px;">
+            <figure class="image">
+               <img src="./static/images/IHATEPKUICS0.png" alt="Inspiration Reference" style="width: 100%; height: auto; border-radius: 5px;">
+            </figure>
+        </div>
+        <div class="caption" style="margin-top: 10px; margin-bottom: 20px; font-style: italic;">
+           (a) Inspiration: The reference wire-frame text illusion.
+        </div>
+      </div>
+
+      <div class="column is-8">
+        <hr style="background-color: #ddd; height: 1px;">
+      </div>
+
+      <div class="column is-10 has-text-centered">
+        <h4 class="title is-5">2. Our Algorithmic Generation</h4>
+        <div class="box" style="padding: 10px;">
+            <figure class="image">
+               <img src="./static/images/IHATEPKUICS.png" alt="Our Algorithmic Generation" style="width: 100%; height: auto; border-radius: 5px;">
+            </figure>
+        </div>
+        <div class="caption" style="margin-top: 10px; font-style: italic;">
+           (b) Our reproduction using a deterministic code-based pipeline.
+           The chaotic wireframe resolves into <strong>"I HATE PKU ICS"</strong> and <strong>"I LOVE PKU CV"</strong> from specific viewpoints.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
