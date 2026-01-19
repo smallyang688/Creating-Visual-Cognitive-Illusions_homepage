@@ -413,6 +413,14 @@
                     }, 1000);
                 });
 
+                // Reset additional patterns group (group 4 - overlay9-12)
+                $('img[src*="overlay9.png"], img[src*="overlay10.png"], img[src*="overlay11.png"], img[src*="overlay12.png"]').each(function () {
+                    $(this).animate({
+                        top: 0,
+                        left: 0
+                    }, 1000);
+                });
+
                 $(this).addClass('inactive_button');
                 setTimeout(() => {
                     $(this).removeClass('inactive_button');
@@ -902,6 +910,26 @@
             </div>
             <div class="hidden-character-image-container">
               <img src="./static/images/overlay8.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 4: Additional patterns -->
+        <div class="lightbox" style="padding: 20px; margin: 20px auto; width: 1200px; position: relative;">
+          <!-- Target area rectangle - shows where images should overlap -->
+          <div class="target-area" id="target-area-group4" style="width: 1120px; height: 260px; left: 40px; top: 20px;"></div>
+          <div class="row">
+            <div class="hidden-character-image-container">
+              <img src="./static/images/overlay9.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+            </div>
+            <div class="hidden-character-image-container">
+              <img src="./static/images/overlay10.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+            </div>
+            <div class="hidden-character-image-container">
+              <img src="./static/images/overlay11.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
+            </div>
+            <div class="hidden-character-image-container">
+              <img src="./static/images/overlay12.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
             </div>
           </div>
         </div>
