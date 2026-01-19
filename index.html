@@ -1162,40 +1162,54 @@
             './static/models/voxel.obj',
             function (object) {
                 // 加载成功的回调
-                document.getElementById('loading-text').style.display = 'none';
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) loadingText.style.display = 'none';
 
-                // 给模型加上简单的材质颜色 (可选)
+                // 1. 给模型加上材质
                 object.traverse(function (child) {
                     if (child.isMesh) {
-                        // 使用深灰色材质，显示线框感
                         child.material = new THREE.MeshPhongMaterial({
                             color: 0x444444,
-                            flatShading: true
+                            flatShading: true,
+                            side: THREE.DoubleSide // 确保双面渲染，防止模型法线反了看不见
                         });
                     }
                 });
 
-                // 自动调整模型大小和位置以适应屏幕
+                // 2. 计算模型的包围盒
                 const box = new THREE.Box3().setFromObject(object);
                 const center = box.getCenter(new THREE.Vector3());
                 const size = box.getSize(new THREE.Vector3());
 
-                // 居中模型
-                object.position.x += (object.position.x - center.x);
-                object.position.y += (object.position.y - center.y);
-                object.position.z += (object.position.z - center.z);
+                // 3. 居中模型：把模型移动到世界坐标原点 (0,0,0)
+                // 逻辑：将模型的当前位置减去它的中心点偏移量
+                object.position.x = -center.x;
+                object.position.y = -center.y;
+                object.position.z = -center.z;
 
+                // 将修正后的模型添加到场景
+                // 此时模型的视觉中心就在 (0,0,0) 了
                 scene.add(object);
 
-                // 自动调整相机距离
+                // 4. 自动调整相机距离 (修复了之前的数学错误)
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const fov = camera.fov * (Math.PI / 180);
-                let cameraZ = Math.abs(maxDim / 2 * Math.tan(fov * 2));
-                cameraZ *= 2.5; // 缩放系数，越大离得越远
 
-                camera.position.set(cameraZ, cameraZ, cameraZ);
-                camera.lookAt(center);
-                controls.target.copy(center);
+                // 计算相机距离：让模型最大的一边刚好撑满视野
+                // 公式：distance = (size / 2) / tan(fov / 2)
+                let cameraDist = (maxDim / 2) / Math.tan(fov / 2);
+
+                // 乘以一个系数稍微拉远一点，留点边距
+                cameraDist *= 2.0;
+
+                // 设置相机位置
+                camera.position.set(cameraDist, cameraDist, cameraDist);
+
+                // 5. 关键：相机和控制器都必须看向原点 (0,0,0)
+                // 因为我们已经在第3步把模型移到 (0,0,0) 了
+                camera.lookAt(0, 0, 0);
+                controls.target.set(0, 0, 0);
+
                 controls.update();
             },
             function (xhr) {
@@ -1205,7 +1219,8 @@
             function (error) {
                 // 错误处理
                 console.error('An error happened loading the OBJ:', error);
-                document.getElementById('loading-text').innerText = 'Error loading model check console.';
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) loadingText.innerText = 'Error: ' + error.message;
             }
         );
 
