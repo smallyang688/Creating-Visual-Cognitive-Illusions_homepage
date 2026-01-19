@@ -1438,6 +1438,95 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Experimental Evaluation</h2>
+    <div class="content has-text-justified">
+      <p>
+        To ensure the quality of our generated illusions, we designed an automated pipeline consisting of two stages:
+        <strong>Automated Generation</strong> using Diffusion Models (DeepFloyd IF / SD v1.4) and
+        <strong>Intelligent Evaluation</strong> using Vision Language Models (Qwen3-VL-4B-Instruct).
+      </p>
+      <p>
+        We implemented a <strong>"blind test"</strong> strategy where the VLM evaluates the generated images without knowing the target words beforehand.
+        This ensures the objectivity of the scores.
+      </p>
+    </div>
+
+    <h3 class="title is-4">Qualitative Comparison</h3>
+    <p class="content has-text-centered">
+      We generated thousands of samples. Below is a comparison showing the disparity in generation quality.
+      Higher VLM scores indicate clearer text legibility and better illusion consistency.
+    </p>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-one-third">
+        <div class="box">
+          <figure class="image is-1by1">
+            <img src="./static/images/score_0.png" alt="Score 0 Sample" style="object-fit: contain;">
+          </figure>
+          <p class="subtitle is-6 mt-2 has-text-danger"><strong>Score: 0</strong></p>
+          <p class="is-size-7">Complete failure in text formation.</p>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="box">
+          <figure class="image is-1by1">
+            <img src="./static/images/score_5.png" alt="Score 5 Sample" style="object-fit: contain;">
+          </figure>
+          <p class="subtitle is-6 mt-2 has-text-warning-dark"><strong>Score: 5</strong></p>
+          <p class="is-size-7">Recognizable but lacks consistency.</p>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="box">
+          <figure class="image is-1by1">
+            <img src="./static/images/score_9.png" alt="Score 9 Sample" style="object-fit: contain;">
+          </figure>
+          <p class="subtitle is-6 mt-2 has-text-success"><strong>Score: 9</strong></p>
+          <p class="is-size-7">High legibility and perfect semantic alignment.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="title is-4 mt-5">Quantitative Analysis</h3>
+    <p class="content">
+      We generated <strong>3,333</strong> candidate images for the (EECS, SMS) word pair. The table below shows the score distribution evaluated by Qwen3-VL.
+      As observed, generating high-quality ambigrams is challenging, with only <strong>~6%</strong> of samples achieving a score of 8.0 or higher.
+    </p>
+
+    <div class="table-container">
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth has-text-centered">
+        <thead>
+          <tr class="is-selected">
+            <th>VLM Score</th>
+            <th>Count</th>
+            <th>Percentage</th>
+            <th>VLM Score</th>
+            <th>Count</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>0.0</td><td>1,171</td><td>35.1%</td>  <td>5.0</td><td>68</td><td>2.0%</td></tr>
+          <tr><td>0.5</td><td>36</td><td>1.1%</td>      <td>5.5</td><td>15</td><td>0.5%</td></tr>
+          <tr><td>1.0</td><td>143</td><td>4.3%</td>     <td>6.0</td><td>106</td><td>3.2%</td></tr>
+          <tr><td>1.5</td><td>50</td><td>1.5%</td>      <td>6.5</td><td>28</td><td>0.8%</td></tr>
+          <tr><td>2.0</td><td>77</td><td>2.3%</td>      <td>7.0</td><td>193</td><td>5.8%</td></tr>
+          <tr><td>2.5</td><td>26</td><td>0.8%</td>      <td>7.5</td><td>666</td><td>20.0%</td></tr>
+          <tr><td>3.0</td><td>75</td><td>2.3%</td>      <td><strong>8.0</strong></td><td>462</td><td>13.9%</td></tr>
+          <tr><td>3.5</td><td>15</td><td>0.5%</td>      <td><strong>8.5</strong></td><td>181</td><td>5.4%</td></tr>
+          <tr><td>4.0</td><td>58</td><td>1.7%</td>      <td><strong>9.0</strong></td><td>4</td><td>0.1%</td></tr>
+          <tr><td>4.5</td><td>13</td><td>0.4%</td>      <td colspan="3" class="has-background-grey-lighter"></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
