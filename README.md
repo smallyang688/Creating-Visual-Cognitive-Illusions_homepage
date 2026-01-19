@@ -1,20 +1,8 @@
-# Diffusion Illusion
+这是我2025秋计算机视觉大作业的项目homepage。此homepage全部由我（Zihan Yang）一人搭建完成。
 
-**GitHub Repository**: [https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions](https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions)
+在此处【https://smallyang688.github.io/Creating-Visual-Cognitive-Illusions_homepage/】访问我们项目的homepage
+在此处【https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions】访问我们项目的Github仓库
 
-这个homepage全部由Zihan Yang搭建完成。
-
-This is the repository for the homepage of our project Diffusion Illusion(coming soon~).
-
-If you find Our Project useful for your work please cite:
-```
-@article{diffusion illusion
-  author    = {Zihan Yang, Yuming Fang, Yueran Wang},
-  title     = {Diffusion Illusion},
-  journal   = {PKU Computer Vision Final Project},
-  year      = {2025},
-}
-```
 
 # Website License
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
