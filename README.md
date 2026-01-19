@@ -1,5 +1,9 @@
 # Diffusion Illusion
 
+**GitHub Repository**: [https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions](https://github.com/smallyang688/Creating-Visual-Cognitive-Illusions)
+
+这个homepage全部由Zihan Yang搭建完成。
+
 This is the repository for the homepage of our project Diffusion Illusion(coming soon~).
 
 If you find Our Project useful for your work please cite:
