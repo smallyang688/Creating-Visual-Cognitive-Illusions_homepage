@@ -1539,6 +1539,64 @@
 </section>
 
 <section class="section">
+  <div class="container is-max-desktop has-text-centered">
+
+    <h2 class="title is-3">Motion Integration Steganography</h2>
+
+    <div class="columns is-centered">
+
+      <div class="column is-one-third">
+        <div class="content">
+          <video id="motion-video-1" autoplay controls muted loop playsinline width="100%" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <source src="./static/videos/motion_city_rose.mp4" type="video/mp4">
+          </video>
+          <div class="caption" style="margin-top: 8px;">
+            <strong>Left:</strong> Static "City" $\to$ Motion "Rose"
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="content">
+          <video id="motion-video-2" autoplay controls muted loop playsinline width="100%" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <source src="./static/videos/motion_forest_panda.mp4" type="video/mp4">
+          </video>
+          <div class="caption" style="margin-top: 8px;">
+            <strong>Middle:</strong> Static "Forest" $\to$ Motion "Panda"
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-one-third">
+        <div class="content">
+          <video id="motion-video-3" autoplay controls muted loop playsinline width="100%" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+            <source src="./static/videos/factorized_demo.mp4" type="video/mp4">
+          </video>
+          <div class="caption" style="margin-top: 8px;">
+            <strong>Right:</strong> Reference (Geng et al., 2024)
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="content has-text-justified" style="margin-top: 20px; background-color: #f5f5f5; padding: 20px; border-radius: 10px;">
+      <p>
+        In this section, we present a novel capability of our framework: generating images that possess <strong>motion-dependent semantics</strong>. These images convey one visual meaning when static, but perceptually integrate into a completely different object when subjected to specific motion patterns (e.g., jittering).
+      </p>
+      <p>
+        As demonstrated in the <strong>left video</strong>, the static image depicts <em>"a crayon drawing of a city"</em>, which transforms into <em>"a rose"</em> upon shaking.
+        Similarly, the <strong>middle video</strong> reveals a hidden <em>"panda"</em> within a static <em>"Vertical Forest Architecture"</em>.
+        We drew inspiration from <strong><em>Factorized Diffusion: Perceptual Illusions by Noise Decomposition</em></strong>
+        (<a href="https://arxiv.org/abs/2404.11615" target="_blank">Geng et al., 2024</a>), whose official demo is shown in the <strong>right video</strong>.
+        Crucially, we reproduced this effect entirely within the <strong>unified framework proposed in our paper</strong>, without relying on their specific codebase.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Experimental Evaluation</h2>
     <div class="content has-text-justified">
