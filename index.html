@@ -84,26 +84,7 @@
 
     /* === 专门为第四组 QR Code 新增的样式 === */
 
-    /* 1. 模拟 sum()/4 的混合逻辑：加法混合 + 亮度衰减 */
-    .qr-overlay {
-        mix-blend-mode: plus-lighter; /* 关键：改为加法混合 */
-        filter: brightness(25%);      /* 关键：单张图亮度降为 1/4，四张叠加正好 100% */
 
-        /* 继承原有的交互属性 */
-        cursor: grab;
-        user-select: none;
-    }
-
-    .qr-overlay:active {
-        cursor: grabbing;
-    }
-
-    /* 2. 强制第四组的目标区域背景变黑 */
-    /* 因为"加法混合"是在黑底上画光，如果不变黑，白色背景+任何光还是白色，就看不见了 */
-    #target-area-group4 {
-        background-color: #000000 !important; /* 强制纯黑背景 */
-        border: 2px dashed rgba(255, 255, 255, 0.5); /* 边框改成浅色，方便在黑底看见 */
-    }
 
     .hidden-character-image-container {
         display: inline-block;
@@ -952,16 +933,16 @@
           <div class="target-area" id="target-area-group4" style="width: 1120px; height: 260px; left: 40px; top: 20px;"></div>
           <div class="row">
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay9.png" class="draggable-image qr-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay9.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
             </div>
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay10.png" class="draggable-image qr-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay10.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
             </div>
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay11.png" class="draggable-image qr-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay11.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
             </div>
             <div class="hidden-character-image-container">
-              <img src="./static/images/overlay12.png" class="draggable-image qr-overlay hidden-character-image glow-hover-element">
+              <img src="./static/images/overlay12.png" class="draggable-image quad-overlay hidden-character-image glow-hover-element">
             </div>
           </div>
         </div>
