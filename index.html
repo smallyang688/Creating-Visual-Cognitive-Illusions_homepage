@@ -306,6 +306,53 @@
         padding: 2px 6px; /* 内边距 */
         border-radius: 4px; /* 圆角 */
     }
+
+    /* === Hybrid Image Animation Styles === */
+
+    /* 定义动画关键帧：控制缩放的时间轴 */
+    @keyframes zoom-loop {
+        /* 0% - 20%: 保持原始大小 (近处看是狗) */
+        0%, 20% {
+            transform: scale(1);
+            filter: blur(0px); /* 清晰 */
+        }
+        /* 20% - 45%: 缩小过程 (拉远) */
+        /* 45% - 70%: 保持缩小状态 (远处看是猫) */
+        45%, 70% {
+            transform: scale(0.1); /* 缩得很小，只剩轮廓 */
+            filter: blur(0.5px);   /* 稍微加一点模糊帮助消除高频噪点 */
+        }
+        /* 70% - 95%: 放大过程 (拉近) */
+        /* 95% - 100%: 回到原始大小 */
+        95%, 100% {
+            transform: scale(1);
+            filter: blur(0px);
+        }
+    }
+
+    .hybrid-container {
+        /* 容器设置：给图片一个舞台，并强制居中 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 500px; /* 固定高度，防止图片缩小时下面的网页内容乱跑 */
+        overflow: hidden; /* 防止图片放大溢出 */
+        background-color: #ffffff; /* 白底 */
+    }
+
+    .hybrid-image-anim {
+        /* 图片基础样式 */
+        max-width: 100%;
+        width: 512px; /* 设置一个较大的初始宽度，保证狗看得很清楚 */
+        height: auto;
+
+        /* 应用动画 */
+        animation: zoom-loop 12s ease-in-out infinite;
+        /* 12s 是整个周期时长，infinite 表示无限循环 */
+
+        /* 性能优化 */
+        will-change: transform;
+    }
   </style>
 
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -801,6 +848,25 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Interactive Demos</h2>
+
+        <h3 class="title is-4">Hybrid Image Illusion</h3>
+        <p><strong class="highlight">Watch the animation: A dog up close, a cat from afar!</strong></p>
+        <p style="font-size: 0.9em; margin-bottom: 20px; color: #666;">
+            (This illusion relies on spatial frequencies. High-frequency details show the dog, while low-frequency shapes reveal the cat.)
+        </p>
+
+        <div class="columns is-centered">
+          <div class="column is-full">
+            <div class="hybrid-container">
+                <img src="./static/images/hybrid_dog_cat.jpg" class="hybrid-image-anim" alt="Hybrid Illusion">
+            </div>
+            <div class="caption" style="margin-top: 10px;">
+                Distance simulation (Scaling from 100% to 10%)
+            </div>
+          </div>
+        </div>
+
+        <hr style="margin: 3rem 0;">
 
         <!-- Flip Illusion Demo -->
         <h3 class="title is-4">Flip Illusion</h3>
